@@ -9,6 +9,7 @@ import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { Copy, Clock, FileText, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAdmin } from '@/contexts/AdminContext';
 
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,6 +27,7 @@ interface HistoryPageProps {
 }
 
 export default function HistoryPage({ initialHistory }: HistoryPageProps) {
+    const { isAdmin, adminPassword } = useAdmin();
     const [history, setHistory] = useState(initialHistory);
 
     const handleCopy = (text: string) => {
@@ -38,7 +40,10 @@ export default function HistoryPage({ initialHistory }: HistoryPageProps) {
         if (!confirm('この履歴を削除しますか？')) return;
 
         try {
-            const res = await fetch(`/api/history/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/history/${id}`, {
+                method: 'DELETE',
+                headers: { 'x-admin-password': adminPassword || '' }
+            });
             if (res.ok) {
                 setHistory(prev => prev.filter(item => item.id !== id));
                 toast.success('削除しました');
@@ -93,10 +98,12 @@ export default function HistoryPage({ initialHistory }: HistoryPageProps) {
                                         </div>
                                     </CardContent>
                                     <CardFooter className="flex justify-end pt-2 gap-2">
-                                        <Button variant="ghost" size="sm" onClick={(e) => handleDelete(item.id, e)} className="text-red-400 hover:text-red-600 hover:bg-red-50">
-                                            <Trash2 className="mr-2 h-3 w-3" />
-                                            削除
-                                        </Button>
+                                        {isAdmin && (
+                                            <Button variant="ghost" size="sm" onClick={(e) => handleDelete(item.id, e)} className="text-red-400 hover:text-red-600 hover:bg-red-50">
+                                                <Trash2 className="mr-2 h-3 w-3" />
+                                                削除
+                                            </Button>
+                                        )}
                                         <Button variant="ghost" size="sm" onClick={() => handleCopy(item.outputPreview)}>
                                             <Copy className="mr-2 h-3 w-3" />
                                             コピー

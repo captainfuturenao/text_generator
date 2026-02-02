@@ -10,20 +10,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ message: 'Invalid ID' });
     }
 
-    // Auth Check
+    if (req.method === 'GET') {
+        const template = await db.select().from(templates).where(eq(templates.id, id)).get();
+        if (!template) {
+            return res.status(404).json({ message: 'Template not found' });
+        }
+        return res.status(200).json({ template });
+    }
+
+    // Auth Check (Only for DELETE and PUT)
     const adminPassword = process.env.ADMIN_PASSWORD;
     const authHeader = req.headers['x-admin-password'];
 
     if (adminPassword && authHeader !== adminPassword) {
         return res.status(401).json({ message: 'Unauthorized: Invalid Admin Password' });
-    }
-
-    if (req.method === 'GET') {
-        const template = db.select().from(templates).where(eq(templates.id, id)).get();
-        if (!template) {
-            return res.status(404).json({ message: 'Template not found' });
-        }
-        return res.status(200).json({ template });
     } else if (req.method === 'DELETE') {
         try {
             const result = await db.delete(templates).where(eq(templates.id, id)).run();

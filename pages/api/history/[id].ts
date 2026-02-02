@@ -14,8 +14,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ message: 'Missing user ID' });
     }
 
+    // Auth Check
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    const authHeader = req.headers['x-admin-password'];
+
+    if (adminPassword && authHeader !== adminPassword) {
+        return res.status(401).json({ message: 'Unauthorized: Invalid Admin Password' });
+    }
+
     try {
-        db.delete(generations).where(eq(generations.id, id)).run();
+        await db.delete(generations).where(eq(generations.id, id)).run();
         return res.status(200).json({ message: 'Deleted' });
     } catch (error) {
         console.error("Delete Error:", error);

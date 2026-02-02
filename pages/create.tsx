@@ -128,8 +128,11 @@ export default function CreateTemplatePage() {
         };
 
         try {
-            const res = await fetch('/api/templates', {
-                method: 'POST',
+            const url = isEditMode ? `/api/templates/${router.query.edit}` : '/api/templates';
+            const method = isEditMode ? 'PUT' : 'POST';
+
+            const res = await fetch(url, {
+                method,
                 headers: {
                     'Content-Type': 'application/json',
                     'x-admin-password': adminKey
@@ -139,10 +142,10 @@ export default function CreateTemplatePage() {
 
             if (!res.ok) {
                 const data = await res.json();
-                throw new Error(data.message || 'Failed to create template');
+                throw new Error(data.message || 'Failed to save template');
             }
 
-            toast.success('テンプレートを作成しました');
+            toast.success(isEditMode ? 'テンプレートを更新しました' : 'テンプレートを作成しました');
             router.push('/');
         } catch (error: any) {
             console.error(error);
