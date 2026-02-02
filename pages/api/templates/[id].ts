@@ -26,8 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(200).json({ template });
     } else if (req.method === 'DELETE') {
         try {
-            const result = db.delete(templates).where(eq(templates.id, id)).run();
-            if (result.changes === 0) {
+            const result = await db.delete(templates).where(eq(templates.id, id)).run();
+            if (result.rowsAffected === 0) {
                 return res.status(404).json({ message: 'Template not found' });
             }
             return res.status(200).json({ message: 'Template deleted' });
@@ -54,12 +54,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 updatedAt: new Date(),
             };
 
-            const result = db.update(templates)
+            const result = await db.update(templates)
                 .set(updatedTemplate)
                 .where(eq(templates.id, id))
                 .run();
 
-            if (result.changes === 0) {
+            if (result.rowsAffected === 0) {
                 return res.status(404).json({ message: 'Template not found' });
             }
 
