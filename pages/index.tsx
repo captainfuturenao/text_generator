@@ -161,28 +161,26 @@ export default function Home({ initialTemplates }: HomeProps) {
       </Head>
 
       <div className="space-y-8">
-        <Card className="w-full h-[500px] bg-black/[0.96] relative overflow-hidden border-slate-800">
+        <Card className="w-full min-h-[600px] md:h-[500px] bg-black/[0.96] relative overflow-hidden border-slate-800 flex flex-col md:flex-row">
           <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" />
 
-          <div className="flex h-full flex-col md:flex-row">
-            {/* Left content */}
-            <div className="flex-1 p-8 relative z-10 flex flex-col justify-center">
-              <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
-                AI Text Generator
-              </h1>
-              <p className="mt-4 text-neutral-300 max-w-lg">
-                テンプレートを選んで、必要な情報を入力するだけ。<br />
-                AIがあなたの代わりに魅力的なテキストを生成します。
-              </p>
-            </div>
+          {/* Right content (Robot) - Moved to top on mobile for visibility */}
+          <div className="w-full h-[350px] md:h-full md:flex-1 relative order-1 md:order-2">
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full"
+            />
+          </div>
 
-            {/* Right content */}
-            <div className="flex-1 relative hidden md:block">
-              <SplineScene
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="w-full h-full"
-              />
-            </div>
+          {/* Left content (Text) */}
+          <div className="flex-1 p-8 relative z-10 flex flex-col justify-center order-2 md:order-1 bg-black/50 md:bg-transparent">
+            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
+              AI Text Generator
+            </h1>
+            <p className="mt-4 text-neutral-300 max-w-lg">
+              テンプレートを選んで、必要な情報を入力するだけ。<br />
+              AIがあなたの代わりに魅力的なテキストを生成します。
+            </p>
           </div>
         </Card>
 
