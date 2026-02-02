@@ -114,7 +114,7 @@ export default function HistoryPage({ initialHistory }: HistoryPageProps) {
 
 export const getServerSideProps: GetServerSideProps = async () => {
     try {
-        const historyData = db
+        const historyData = await db
             .select({
                 id: generations.id,
                 templateId: generations.templateId,
@@ -129,7 +129,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
         const serializableHistory = historyData.map(h => ({
             ...h,
-            createdAt: h.createdAt.toISOString(),
+            createdAt: h.createdAt ? h.createdAt.toISOString() : new Date().toISOString(),
         }));
 
         return {

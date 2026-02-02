@@ -279,7 +279,7 @@ export default function TemplatePage({ template }: TemplatePageProps) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params as { id: string };
 
-    const template = db.select().from(templates).where(eq(templates.id, id)).get();
+    const template = await db.select().from(templates).where(eq(templates.id, id)).get();
 
     if (!template) {
         return { notFound: true };

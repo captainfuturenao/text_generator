@@ -280,7 +280,7 @@ export default function Home({ initialTemplates }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const allTemplates = db.select().from(templates).orderBy(desc(templates.displayOrder), desc(templates.createdAt)).all();
+  const allTemplates = await db.select().from(templates).orderBy(desc(templates.displayOrder), desc(templates.createdAt)).all();
 
   const serializableTemplates = allTemplates.map(t => ({
     ...t,
