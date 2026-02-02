@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             updatedAt: new Date(),
         };
 
-        db.insert(templates).values(newTemplate).run();
+        await db.insert(templates).values(newTemplate).run();
 
         return res.status(201).json({ template: newTemplate });
     } catch (error: any) {

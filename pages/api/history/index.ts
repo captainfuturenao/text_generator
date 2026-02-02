@@ -3,13 +3,13 @@ import { db } from '@/lib/db';
 import { generations, templates } from '@/drizzle/schema';
 import { desc, eq } from 'drizzle-orm';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'GET') {
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
     try {
-        const history = db
+        const history = await db
             .select({
                 id: generations.id,
                 templateId: generations.templateId,

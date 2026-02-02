@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         // 1. Get Template
-        const template = db.select().from(templates).where(eq(templates.id, templateId)).get();
+        const template = await db.select().from(templates).where(eq(templates.id, templateId)).get();
         if (!template) {
             return res.status(404).json({ message: 'Template not found' });
         }
@@ -82,7 +82,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             createdAt: new Date(),
         };
 
-        db.insert(generations).values(newGeneration).run();
+        await db.insert(generations).values(newGeneration).run();
 
         return res.status(200).json({ output: outputText, historyId: newId });
     } catch (error: any) {
@@ -103,7 +103,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             createdAt: new Date(),
         };
 
-        db.insert(generations).values(newGeneration).run();
+        await db.insert(generations).values(newGeneration).run();
 
         return res.status(200).json({
             output: mockOutput,
