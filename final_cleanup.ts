@@ -7,6 +7,33 @@ import { templates } from './drizzle/schema';
 // Standard Templates Data
 const cleanTemplates = [
     {
+        name: 'SNS投稿生成',
+        description: 'TwitterやInstagram向けの魅力的な投稿文を作成します。絵文字入り。',
+        category: 'SNS',
+        promptBase: 'あなたはSNSマーケティングのプロです。以下の情報を元に、読者の共感を呼び、いいねやリツイートをしたくなるような魅力的なSNS投稿を作成してください。絵文字を適切に使用し、ハッシュタグもいくつか提案してください。\n\n[テーマ]: {{topic}}\n[ターゲット]: {{target}}\n[トーン]: {{tone}}',
+        formSchema: {
+            fields: [
+                { key: 'topic', label: '投稿テーマ', type: 'text', placeholder: '例：新商品のカフェラテ発売', required: true },
+                { key: 'target', label: 'ターゲット', type: 'text', placeholder: '例：20代女性', required: false },
+                { key: 'tone', label: 'トーン', type: 'select', options: ['親しみやすい', 'プロフェッショナル', '情熱的'], required: true }
+            ]
+        },
+        displayOrder: 100
+    },
+    {
+        name: 'ブログ構成案作成',
+        description: 'キーワードからSEOを意識したブログ記事の構成案を作成します',
+        category: 'ブログ',
+        promptBase: 'あなたはSEOに強いブログライターです。指定されたキーワードを元に、検索意図を満たすようなブログ記事の構成案（タイトル、H2見出し、H3見出し、各セクションの要点）を作成してください。\n\n[キーワード]: {{keyword}}\n[ターゲット]: {{target}}',
+        formSchema: {
+            fields: [
+                { key: 'keyword', label: '対策キーワード', type: 'text', placeholder: '例：ダイエット 食事制限', required: true },
+                { key: 'target', label: '想定読者', type: 'textarea', placeholder: '悩みの深さなど', required: false }
+            ]
+        },
+        displayOrder: 90
+    },
+    {
         name: '議事録生成',
         description: '会議のメモから構造化された議事録を作成します',
         category: 'ビジネス',
@@ -16,7 +43,7 @@ const cleanTemplates = [
                 { key: 'memo', label: '会議メモ', type: 'textarea', placeholder: '会議中のメモをここに貼り付けてください', required: true }
             ]
         },
-        displayOrder: 60
+        displayOrder: 80
     },
     {
         name: '日報作成',
@@ -30,7 +57,7 @@ const cleanTemplates = [
                 { key: 'issues', label: '課題・共有事項', type: 'textarea', placeholder: '困っていることや報告事項', required: true }
             ]
         },
-        displayOrder: 50
+        displayOrder: 70
     },
     {
         name: 'ビジネスメール返信',
@@ -44,7 +71,7 @@ const cleanTemplates = [
                 { key: 'tone', label: 'トーン', type: 'text', placeholder: '丁寧、謝罪、親しい、など', required: true }
             ]
         },
-        displayOrder: 40
+        displayOrder: 60
     },
     {
         name: '会議アジェンダ作成',
@@ -58,7 +85,7 @@ const cleanTemplates = [
                 { key: 'duration', label: '会議時間', type: 'text', placeholder: '60分', required: true }
             ]
         },
-        displayOrder: 30
+        displayOrder: 50
     },
     {
         name: 'プレスリリース作成',
@@ -72,7 +99,7 @@ const cleanTemplates = [
                 { key: 'points', label: 'アピールポイント', type: 'textarea', placeholder: '業界初、最大級など', required: true }
             ]
         },
-        displayOrder: 20
+        displayOrder: 40
     },
     {
         name: '求人票作成',
@@ -87,7 +114,7 @@ const cleanTemplates = [
                 { key: 'persona', label: '求める人物像', type: 'textarea', placeholder: '自走できる方、チームワークを重視する方', required: true }
             ]
         },
-        displayOrder: 10
+        displayOrder: 30
     }
 ];
 
